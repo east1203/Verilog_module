@@ -1,0 +1,12 @@
+//This module to generate clock signal
+parameter half_period = 40;
+parameter stop_time = 400;
+initial begin :clock_loop
+  clock =0;
+  forever begin
+    #half_period = 1;
+    #half_period = 0;
+  end
+end
+
+initial #stop_time disable clock_loop;
