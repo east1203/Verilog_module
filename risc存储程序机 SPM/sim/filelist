@@ -1,0 +1,7 @@
+./rtl/test_RISC_SPM.v
+./rtl/risc_spm.v
+./rtl/Control_Unit.v
+#./rtl/Control_UNIT.v
+./rtl/Processing_Unit.v
+./rtl/Memory_Unit.v
+./rtl/Clock_Unit.v
