@@ -19,11 +19,17 @@ SPM包含三部分：控制器，处理器和存储器。其中控制器产生�
 一共有6个.v文件
 
 ./rtl/test_RISC_SPM.v  ：testbench文件
+
 ./rtl/risc_spm.v           ： 顶层文件
+
 ./rtl/Control_Unit.v      ：控制器
+
 ./rtl/Processing_Unit.v  ：处理器
+
 ./rtl/Memory_Unit.v	：存储器
+
 ./rtl/Clock_Unit.v	：时钟生成单元
+
 
 
 
