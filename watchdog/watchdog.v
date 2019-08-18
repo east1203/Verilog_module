@@ -6,8 +6,8 @@
  module watchdog(
           input clk,
           input rst_,
-          input flag,
-          input [1:0] mode,
+          input flag, //喂狗标志位
+          input [1:0] mode, // 工作模式
           input update,
           input [31:0]  StartValue,
           output timeout,
