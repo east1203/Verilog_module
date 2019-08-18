@@ -19,7 +19,7 @@ reg int_r;
 assign timeout  = timeout_r;
 assign int      = int_r;
 
-wire enable = mode[1];
+wire enable = mode[1]; // WD使能位
 reg [31:0]  count;
 reg [1:0] count_int;
 reg modesel;
@@ -28,7 +28,7 @@ always@(posedge clk or negedge rst_) begin
     timeout_r <=  1'b0;
     int_r     <=  1'b0;
     count     <=  32'hffffffff;
-    count_int <=  2'b0;
+    count_int <=  2'b0; // 超时次数计数器
     modesel   <=  1'b0;
   end
   else if(modesel != mode[0]) begin
@@ -46,27 +46,27 @@ always@(posedge clk or negedge rst_) begin
     count <=  StartValue;
   end  
   else if(enable==1'b1) begin
-    if(count  ==  32'b0) begin
+    if(count  ==  32'b0) begin  // 超时
       count <= StartValue;
       case(modesel)
-        1'b1: begin
-          if(count_int  == 1'b1) begin
+        1'b1: begin // 一次超时中断、两次超时复位模式
+          if(count_int  == 1'b1) begin // 第二次超时，复位
             timeout_r <=  1'b1;
             int_r     <=  1'b0;
           end
-          else if(count_int == 1'b0) begin
+          else if(count_int == 1'b0) begin // 第一次超时，中断
             count_int <= count_int + 1'b1;
             int_r     <=  1'b1;
           end
         end
-        1'b0: begin
+        1'b0: begin // 一次超时复位模式
           timeout_r <=  1'b1;
           count_int <=  2'b0;
         end
       endcase
     end
     else begin
-      count <= count - 1'b1;
+      count <= count - 1'b1; // 计数
       timeout_r <=  1'b0;
     end
   end
