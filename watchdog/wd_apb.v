@@ -11,12 +11,12 @@
           input psel,
           input penable,
           input   [7:0] paddr,
-          input   [7:0] pwdata, //写入的数据可能是工作模式、初始值、喂狗寄存器值
+          input   [7:0] pwdata,
           output  [7:0] prdata,
-          output  flag, // 输出到wd的喂狗标志位
-          output  [1:0] mode, // 输出到wd的工作模式
-          output  update,
-          output  [31:0]  StartValue
+          output  flag, //喂狗标志位
+          output  [1:0] mode,
+          output  update,//更新计数初始值
+          output  [31:0]  StartValue //计数初始值
  );
 
  reg  [1:0]   mode_r;
@@ -31,7 +31,6 @@
  assign StartValue  = StartValue_r;
  assign prdata      = prdata_r;
 
-// 写寄存器
  always@(posedge pclk or negedge prst_) begin
 
    if(prst_ == 1'b0) begin
@@ -63,7 +62,7 @@
      update_r   <=  1'b0;
    end
  end
-// 读寄存器
+
  always@(posedge pclk or negedge prst_) begin
    if(prst_ == 1'b0) begin
      prdata_r <=  32'b0;
