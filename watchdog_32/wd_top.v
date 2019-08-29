@@ -8,10 +8,10 @@
                 input psel,
                 input penable,
                 input   [7:0]   paddr,
-                input   [7:0]   pwdata,
-                output  [7:0]   prdata,
+                input   [31:0]   pwdata,
+                output  [31:0]   prdata,
                 output          timeout,
-                output          int
+                output          intr
               );
 
 wire  [31:0]  StartValue;
@@ -40,7 +40,7 @@ watchdog wd(  .clk(pclk),
               .update(update),
               .StartValue(StartValue),
               .timeout(timeout),
-              .int(int)
+              .intr(intr)
 
 );
  endmodule

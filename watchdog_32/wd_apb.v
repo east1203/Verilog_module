@@ -11,8 +11,8 @@
           input psel,
           input penable,
           input   [7:0] paddr,
-          input   [7:0] pwdata,
-          output  [7:0] prdata,
+          input   [31:0] pwdata,
+          output  [31:0] prdata,
           output  flag, //喂狗标志位
           output  [1:0] mode,
           output  update,//更新计数初始值
@@ -34,15 +34,15 @@
  always@(posedge pclk or negedge prst_) begin
 
    if(prst_ == 1'b0) begin
-      flag_r        <=  0;
-      update_r      <=  0;
-      mode_r        <=  0;
-      StartValue_r  <=  0;     
+      flag_r        <=  1'h0;
+      update_r      <=  1'h0;
+      mode_r        <=  2'b0;
+      StartValue_r  <=  32'hffffffff;     
    end
    else if(psel && penable && pwrite) begin
        case(paddr)
          `reg_StartValue: begin
-           StartValue_r  <=  pwdata;
+           StartValue_r  <=  pwdata[31:0];
            update_r       <=  1'b1;
          end
          `reg_feeddog: begin
@@ -67,9 +67,9 @@
    if(prst_ == 1'b0) begin
      prdata_r <=  32'b0;
    end
-   else if(psel && penable && !pwrite) begin
+   else if(psel && penable && (!pwrite)) begin
     case(paddr)
-     `reg_StartValue: prdata_r        <= StartValue_r;
+     `reg_StartValue: prdata_r        <= StartValue;
      `reg_mode      : prdata_r        <=  {30'b0,mode} ;
      default:
        prdata_r <=  32'b0;
